@@ -1,284 +1,463 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MERT'S EDITING | @M3RTavar</title>
-  
-  <!-- Tailwind CSS & Lucide Icons -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050508">
+<title>M3RTavar — Video Editor & Content Creator</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:#030305;color:#f5f5f7;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  overflow-x:hidden;line-height:1.5;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;
+  background:
+    radial-gradient(circle at 50% 8%,rgba(84,74,255,.13),transparent 27%),
+    radial-gradient(circle at 80% 48%,rgba(60,45,180,.06),transparent 30%);
+}
+body:after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+}
+a{text-decoration:none;color:inherit}
+button{font:inherit}
+::-webkit-scrollbar{width:7px}
+::-webkit-scrollbar-track{background:#050507}
+::-webkit-scrollbar-thumb{background:#25252f;border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:#4e4e62}
 
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              bg: '#07050e',
-              card: '#0f0b1e',
-              border: '#1f1938',
-              purple: '#7c3aed',
-              accent: '#a78bfa'
-            }
-          }
-        }
-      }
-    }
-  </script>
+.cursor-glow{
+  position:fixed;width:280px;height:280px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(85,72,255,.10),transparent 68%);
+  transform:translate(-50%,-50%);transition:opacity .25s;mix-blend-mode:screen;
+}
+.container{width:min(960px,calc(100% - 38px));margin:auto}
+.topbar{
+  position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:50;
+  width:min(650px,calc(100% - 28px));height:48px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 13px 0 15px;
+  border:1px solid rgba(255,255,255,.10);border-radius:16px;
+  background:rgba(9,9,14,.78);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  box-shadow:0 12px 45px rgba(0,0,0,.35);
+}
+.brand{display:flex;align-items:center;gap:8px;font-weight:750;font-size:12px;letter-spacing:-.2px}
+.brand-avatar{
+  width:25px;height:25px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(135deg,#7770ff,#2420a4);font-size:10px;font-weight:900;
+  box-shadow:0 0 18px rgba(83,72,255,.3);
+}
+.nav{display:flex;align-items:center;gap:3px}
+.nav a,.nav button{
+  border:0;background:transparent;color:#8e8e9a;font-size:10px;font-weight:650;
+  padding:7px 8px;border-radius:8px;cursor:pointer;transition:.2s;
+}
+.nav a:hover,.nav button:hover,.nav a.active{color:#fff;background:rgba(255,255,255,.055)}
+.contact-mini{color:#b0aaff!important}
+.contact-wrap{position:relative}
+.contact-menu{
+  display:none;position:absolute;right:0;top:39px;width:145px;padding:6px;
+  background:#0b0b11;border:1px solid #242432;border-radius:12px;
+  box-shadow:0 20px 50px rgba(0,0,0,.5)
+}
+.contact-wrap.open .contact-menu{display:block;animation:pop .18s ease}
+.contact-menu a{display:block!important;font-size:10px!important}
+.menu-btn{display:none!important}
 
-  <style>
-    body {
-      background-color: #07050e;
-      color: #f3f4f6;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-    .glow-effect {
-      box-shadow: 0 0 50px -10px rgba(124, 58, 237, 0.3);
-    }
-    .glass-nav {
-      background: rgba(15, 11, 30, 0.7);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-  </style>
+main{position:relative;z-index:1}
+.hero{min-height:700px;padding-top:150px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.pill{
+  display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border:1px solid #242454;
+  background:rgba(43,38,115,.16);border-radius:999px;color:#a9a4ff;font-size:8px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.8px;margin-bottom:23px;
+}
+.pill i{width:6px;height:6px;border-radius:50%;background:#6962ff;box-shadow:0 0 9px #6962ff}
+.hero h1{font-size:clamp(34px,5vw,55px);line-height:1.04;letter-spacing:-2.6px;font-weight:850;max-width:650px}
+.gradient{background:linear-gradient(90deg,#fff 0%,#8b83ff 47%,#5147ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{margin-top:18px;color:#888894;font-size:12px;max-width:540px}
+.cta-row{display:flex;gap:9px;margin-top:23px}
+.btn{
+  border:1px solid #28283b;background:#0d0d14;color:#eee;border-radius:9px;padding:9px 14px;
+  font-size:10px;font-weight:750;cursor:pointer;transition:.22s;box-shadow:0 8px 25px rgba(0,0,0,.22)
+}
+.btn:hover{transform:translateY(-2px);border-color:#5149b8;background:#13131e}
+.btn.primary{background:#5b51ff;border-color:#756dff;color:#fff;box-shadow:0 8px 30px rgba(91,81,255,.24)}
+.btn.primary:hover{background:#6a61ff;box-shadow:0 12px 38px rgba(91,81,255,.35)}
+
+.stats{
+  width:min(620px,100%);margin-top:35px;padding:15px 25px;display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid #151520;background:rgba(10,10,15,.7);border-radius:11px
+}
+.stat strong{display:block;font-size:15px;color:#625aff;font-weight:850}
+.stat span{display:block;margin-top:1px;color:#696975;font-size:7px;text-transform:uppercase;letter-spacing:.5px}
+
+.section{padding:45px 0}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{
+  position:relative;overflow:hidden;border:1px solid #1a1a27;background:linear-gradient(145deg,rgba(18,18,28,.9),rgba(8,8,12,.92));
+  border-radius:11px;padding:15px;transition:.28s;box-shadow:0 15px 45px rgba(0,0,0,.15)
+}
+.card:before{
+  content:"";position:absolute;inset:-1px;opacity:0;transition:.3s;
+  background:radial-gradient(circle at 50% 0%,rgba(92,81,255,.16),transparent 55%);
+}
+.card:hover{transform:translateY(-5px);border-color:#2e2a68}
+.card:hover:before{opacity:1}
+.card>*{position:relative}
+.card h3{font-size:10px;text-align:center;font-weight:850}
+.card p{font-size:7px;color:#74747f;text-align:center;max-width:250px;margin:5px auto 11px}
+.preview{
+  height:115px;border-radius:7px;border:1px solid #272733;overflow:hidden;position:relative;
+  background:#111 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='180' viewBox='0 0 320 180'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23242b67'/%3E%3Cstop offset='.48' stop-color='%235b3aa7'/%3E%3Cstop offset='1' stop-color='%2317a0a2'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='320' height='180' fill='url(%23g)'/%3E%3Ccircle cx='260' cy='55' r='45' fill='%23fff' opacity='.08'/%3E%3Cpath d='M0 150L100 80l55 40 75-75 90 65v70H0z' fill='%23050715' opacity='.7'/%3E%3C/svg%3E") center/cover;
+}
+.preview.long{background-image:linear-gradient(135deg,rgba(44,32,150,.35),rgba(0,0,0,.2)),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='180'%3E%3Crect width='320' height='180' fill='%23191b30'/%3E%3Crect x='12' y='15' width='296' height='150' rx='8' fill='%23383d83'/%3E%3Ccircle cx='76' cy='84' r='40' fill='%23ff6d45' opacity='.7'/%3E%3Crect x='130' y='47' width='125' height='16' rx='8' fill='%23fff' opacity='.8'/%3E%3Crect x='130' y='73' width='95' height='10' rx='5' fill='%23fff' opacity='.35'/%3E%3Crect x='130' y='94' width='112' height='10' rx='5' fill='%23fff' opacity='.25'/%3E%3C/svg%3E")}
+.card-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:9px}
+.card-bottom span{font-size:7px;color:#6f6f7b}
+.circle-btn{
+  width:22px;height:22px;border-radius:50%;border:1px solid #2d2d42;background:#171721;color:#fff;
+  display:grid;place-items:center;font-size:11px;cursor:pointer;transition:.2s
+}
+.circle-btn:hover{background:#5a52ff;border-color:#766eff;transform:rotate(90deg)}
+
+.label{text-align:center;color:#6159ff;font-size:7px;font-weight:850;letter-spacing:1.1px;text-transform:uppercase;margin-bottom:8px}
+.section-title{text-align:center;font-size:23px;letter-spacing:-1.2px;font-weight:850}
+.section-title .gradient{font-size:inherit}
+.section-copy{text-align:center;color:#777782;font-size:9px;max-width:540px;margin:9px auto 0}
+
+.avatars{display:flex;justify-content:center;align-items:center;margin:17px 0 35px}
+.avatar{
+  width:31px;height:31px;margin-left:-5px;border:2px solid #050507;border-radius:50%;
+  background:linear-gradient(135deg,#ecb071,#7145e8);display:grid;place-items:center;font-size:8px;font-weight:900;
+  transition:.2s;box-shadow:0 3px 13px rgba(0,0,0,.35)
+}
+.avatar:nth-child(2n){background:linear-gradient(135deg,#43b8bc,#382c92)}
+.avatar:nth-child(3n){background:linear-gradient(135deg,#ffb557,#b72c75)}
+.avatar:nth-child(4n){background:linear-gradient(135deg,#e3e3e3,#3d3d49);color:#111}
+.avatar:hover{transform:translateY(-6px) scale(1.1);z-index:3}
+
+.glass{
+  border:1px solid #1c1c2a;border-radius:13px;background:radial-gradient(circle at 90% 10%,rgba(67,56,191,.12),transparent 32%),rgba(11,11,18,.74);
+  padding:24px;box-shadow:0 20px 70px rgba(0,0,0,.22)
+}
+.glass h2{font-size:22px;letter-spacing:-1px}
+.glass p{color:#7c7c87;font-size:9px;line-height:1.8;margin-top:10px;max-width:760px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tag{border:1px solid #24243a;border-radius:999px;padding:5px 8px;color:#8c88b9;background:#11111a;font-size:7px}
+
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.price{
+  border:1px solid #1c1c29;background:#0b0b11;border-radius:12px;padding:20px;transition:.25s
+}
+.price.featured{border-color:#343079;box-shadow:0 0 0 1px rgba(92,81,255,.05),0 20px 60px rgba(44,38,135,.13)}
+.price:hover{transform:translateY(-4px)}
+.price h3{font-size:10px}.price .amount{font-size:27px;font-weight:850;letter-spacing:-1.4px;margin:9px 0 3px}.price .amount small{font-size:9px;color:#777}
+.price p{font-size:8px;color:#6e6e79;margin-bottom:13px}
+.features{list-style:none;display:grid;gap:7px}
+.features li{font-size:8px;color:#9999a4}.features li:before{content:"✓";color:#625aff;margin-right:7px}
+.price .btn{width:100%;margin-top:16px}
+
+.portfolio-head{display:flex;justify-content:space-between;align-items:flex-start;gap:30px}
+.portfolio-head h2{font-size:25px;line-height:1.02;letter-spacing:-1.3px}
+.portfolio-head p{font-size:9px;color:#777782;margin-top:8px;max-width:470px}
+.creator-box{width:150px;flex:none;text-align:center}
+.creator-avatar{width:62px;height:62px;border-radius:12px;margin:auto;background:linear-gradient(135deg,#4e36aa,#d04b78);display:grid;place-items:center;font-size:19px;font-weight:900;box-shadow:0 12px 35px rgba(71,45,170,.25)}
+.creator-box strong{display:block;font-size:8px;margin-top:7px}.creator-box span{display:block;font-size:7px;color:#6c6c76}
+.socials{display:flex;gap:6px;margin-top:13px}
+.socials .btn{padding:7px 10px;font-size:8px}
+
+.works{margin-top:35px}
+.works-title{text-align:center;font-size:8px;color:#858591;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.work{
+  border:1px solid #181822;background:#0b0b10;border-radius:11px;overflow:hidden;margin-bottom:10px;
+  transition:.25s;cursor:pointer
+}
+.work:hover{border-color:#36315f;transform:translateY(-3px)}
+.work-image{
+  height:205px;background:
+    linear-gradient(180deg,transparent 30%,rgba(0,0,0,.65)),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='500'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2324a7e8'/%3E%3Cstop offset='.52' stop-color='%23d8d4c0'/%3E%3Cstop offset='1' stop-color='%23232b36'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='900' height='500' fill='url(%23g)'/%3E%3Cpath d='M0 360L170 200l130 100 130-160 210 120 160-75v315H0z' fill='%230d1720' opacity='.55'/%3E%3Ctext x='450' y='275' text-anchor='middle' font-family='Arial' font-size='75' font-weight='900' fill='white' opacity='.9'%3EWELCOME BACK%3C/text%3E%3C/svg%3E") center/cover;
+  display:flex;align-items:flex-end;padding:15px
+}
+.work-meta{display:flex;justify-content:space-between;align-items:center;padding:10px 13px;font-size:8px;color:#8b8b96}.work-meta b{color:#eee}
+
+.final{padding:55px 0 90px}
+.final-card{text-align:center;max-width:580px;margin:auto;padding:40px 25px}
+.final-card h2{font-size:27px;line-height:1.08;letter-spacing:-1.5px}
+.final-card p{font-size:9px;color:#777782;max-width:400px;margin:10px auto 17px}
+.final-brand{margin-top:27px;font-size:22px;color:#9d99bb;font-weight:850;letter-spacing:-1px}
+
+.reveal{opacity:0;transform:translateY(25px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.visible{opacity:1;transform:none}
+.float{animation:float 5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes pop{from{opacity:0;transform:translateY(-5px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes heroIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.hero>*{animation:heroIn .75s both}.hero .pill{animation-delay:.05s}.hero h1{animation-delay:.13s}.hero-sub{animation-delay:.2s}.cta-row{animation-delay:.27s}.stats{animation-delay:.34s}
+
+.modal{
+  position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(13px);z-index:100;display:none;place-items:center;padding:20px
+}
+.modal.open{display:grid}
+.modal-card{width:min(620px,100%);border:1px solid #29283e;background:#0a0a11;border-radius:15px;padding:22px;box-shadow:0 30px 100px rgba(0,0,0,.6);animation:pop .22s ease}
+.modal-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.modal-top h3{font-size:12px}.close{border:1px solid #28283a;background:#11111a;color:#aaa;border-radius:7px;width:27px;height:27px;cursor:pointer}
+.modal-body{color:#8a8a95;font-size:9px;line-height:1.8}.modal-body strong{color:#fff}
+form{display:grid;gap:9px;margin-top:12px}
+input,textarea{width:100%;border:1px solid #242432;background:#0e0e15;color:#fff;border-radius:8px;padding:9px;font-size:9px;outline:none}
+textarea{min-height:95px;resize:vertical}input:focus,textarea:focus{border-color:#5049bd}
+
+.toast{
+  position:fixed;right:20px;bottom:20px;z-index:120;background:#11111a;border:1px solid #29283d;
+  border-radius:10px;padding:10px 13px;font-size:8px;color:#ddd;opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s
+}
+.toast.show{opacity:1;transform:none}
+
+footer{border-top:1px solid #11111a;padding:18px 0;color:#50505b;font-size:7px;text-align:center}
+
+@media(max-width:700px){
+  .topbar{height:46px}.nav a,.nav button{display:none}.menu-btn{display:block!important}
+  .nav.mobile-open{position:absolute;right:0;top:55px;width:160px;padding:6px;display:grid;background:#0b0b11;border:1px solid #242432;border-radius:12px}
+  .nav.mobile-open a,.nav.mobile-open button{display:block;text-align:left}
+  .hero{min-height:660px;padding-top:125px}.hero h1{font-size:40px}
+  .stats{padding:13px 10px}.stat strong{font-size:13px}.cards,.pricing-grid{grid-template-columns:1fr}
+  .portfolio-head{display:block}.creator-box{margin:22px auto 0}.socials{justify-content:center}
+  .section{padding:35px 0}.work-image{height:170px}
+}
+</style>
 </head>
-<body class="min-h-screen pb-20">
+<body>
+<div class="cursor-glow" id="cursorGlow"></div>
 
-  <!-- GLASS NAVBAR -->
-  <header class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-4xl z-50">
-    <nav class="glass-nav rounded-full px-6 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <span class="font-bold text-lg text-purple-400">@M3RTavar</span>
-        <div class="flex items-center gap-2 text-gray-400 border-l border-gray-700 pl-3">
-          <a href="https://discord.gg" target="_blank" class="hover:text-white transition"><i data-lucide="disc"></i></a>
-          <a href="https://x.com" target="_blank" class="hover:text-white transition"><i data-lucide="twitter"></i></a>
-          <a href="https://instagram.com" target="_blank" class="hover:text-white transition"><i data-lucide="instagram"></i></a>
-          <a href="https://youtube.com" target="_blank" class="hover:text-white transition"><i data-lucide="youtube"></i></a>
-        </div>
-      </div>
-      <div class="flex items-center gap-6 text-sm font-medium text-gray-300">
-        <a href="#home" class="hover:text-white transition">Home</a>
-        <a href="#portfolio" class="hover:text-white transition">Portfolio</a>
-        <a href="#about" class="hover:text-white transition">About</a>
-        <a href="#pricing" class="hover:text-white transition">Pricing</a>
-        <a href="#contact" class="hover:text-white transition">Contact</a>
-      </div>
-    </nav>
-  </header>
-
-  <main class="max-w-4xl mx-auto pt-36 px-4 space-y-24">
-
-    <!-- HERO SECTION -->
-    <section id="home" class="text-center space-y-6">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/40 border border-purple-500/30 text-purple-300 text-xs font-semibold">
-        <i data-lucide="users" class="w-3.5 h-3.5"></i> Trusted by 10+ Creators
-      </div>
-      
-      <h1 class="text-5xl font-extrabold tracking-tight">
-        I don't <span class="text-purple-500 italic">just</span> cut clips<br />
-        <span class="bg-gradient-to-r from-white via-gray-200 to-purple-400 bg-clip-text text-transparent">I design the experience.</span>
-      </h1>
-
-      <div class="grid grid-cols-3 gap-4 pt-6">
-        <div class="bg-brand-card border border-brand-border rounded-2xl p-6">
-          <div class="text-4xl font-black text-white">50+</div>
-          <div class="text-xs font-bold text-gray-400 tracking-wider mt-1">VIDEOS DELIVERED</div>
-        </div>
-        <div class="bg-brand-card border border-brand-border rounded-2xl p-6">
-          <div class="text-4xl font-black text-white">10+</div>
-          <div class="text-xs font-bold text-gray-400 tracking-wider mt-1">CREATORS SERVED</div>
-        </div>
-        <div class="bg-brand-card border border-brand-border rounded-2xl p-6">
-          <div class="text-4xl font-black text-white">50M+</div>
-          <div class="text-xs font-bold text-gray-400 tracking-wider mt-1">TOTAL VIEWS</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PORTFOLIO / CAROUSEL -->
-    <section id="portfolio" class="grid grid-cols-2 gap-6">
-      <div class="bg-brand-card border border-brand-border rounded-3xl p-6 flex flex-col justify-between">
-        <div>
-          <h2 class="text-2xl font-bold">Shorts</h2>
-          <p class="text-xs text-gray-400 mt-2">Fast-paced hooks, animated captions & beat synced cuts for TikTok, Reels & YouTube Shorts.</p>
-        </div>
-        <div class="mt-6 flex items-center justify-between">
-          <span class="text-xs text-gray-400">45 Videos</span>
-          <div class="flex gap-2">
-            <button class="w-8 h-8 rounded-full bg-brand-border flex items-center justify-center"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
-            <button class="w-8 h-8 rounded-full bg-brand-border flex items-center justify-center"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-brand-card border border-brand-border rounded-3xl p-6 flex flex-col justify-between">
-        <div>
-          <h2 class="text-2xl font-bold">Long Forms</h2>
-          <p class="text-xs text-gray-400 mt-2">Narrative-driven edits with cinematic pacing, custom motion graphics & color grading for YouTube.</p>
-        </div>
-        <div class="mt-6 flex items-center justify-between">
-          <span class="text-xs text-gray-400">12 Videos</span>
-          <div class="flex gap-2">
-            <button class="w-8 h-8 rounded-full bg-brand-border flex items-center justify-center"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
-            <button class="w-8 h-8 rounded-full bg-brand-border flex items-center justify-center"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TESTIMONIAL SYSTEM -->
-    <section class="text-center space-y-6">
-      <div class="inline-block text-xs font-bold text-purple-400 tracking-widest uppercase">Client Testimonials</div>
-      <h2 class="text-3xl font-extrabold">Tons of positive reviews</h2>
-      
-      <!-- Avatare Flexbar -->
-      <div class="flex justify-center gap-3 pt-4">
-        <button onclick="openReview('Skeppy', '6.15M Subscribers', 'We did a trial edit and I think the edit was awesome overall!', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" class="w-14 h-14 rounded-full border-2 border-brand-border hover:border-brand-purple overflow-hidden transition hover:scale-105">
-          <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Skeppy" />
-        </button>
-        <button onclick="openReview('Farex', '180K Subscribers', 'Fast and good editing, barely needed revisions.', '')" class="w-14 h-14 rounded-full border-2 border-brand-border hover:border-brand-purple overflow-hidden transition hover:scale-105">
-          <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Farex" />
-        </button>
-        <button onclick="openReview('Bridgey', '95K Subscribers', 'Got the best thing possible out of the footage!', '')" class="w-14 h-14 rounded-full border-2 border-brand-border hover:border-brand-purple overflow-hidden transition hover:scale-105">
-          <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Bridgey" />
-        </button>
-        <button onclick="openReview('JettLuv', '40K Subscribers', 'Best editor on earth!', '')" class="w-14 h-14 rounded-full border-2 border-brand-border hover:border-brand-purple overflow-hidden transition hover:scale-105">
-          <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=JettLuv" />
-        </button>
-      </div>
-    </section>
-
-    <!-- ABOUT SECTION -->
-    <section id="about" class="bg-brand-card border border-brand-border rounded-3xl p-8 space-y-4">
-      <div class="text-xs font-bold text-purple-400 tracking-widest uppercase">About Me</div>
-      <h2 class="text-2xl font-bold">Why choose me?</h2>
-      <p class="text-gray-400 text-sm leading-relaxed">
-        Hey! I'm Mert, a video editor with <span class="text-white font-semibold">4+ years of experience</span> using <span class="text-white font-semibold">Adobe Premiere Pro</span> and <span class="text-white font-semibold">After Effects</span>. I focus on engaging, clean, and smooth edits that match your content's vibe.
-      </p>
-      <div class="flex flex-wrap gap-2 pt-2">
-        <span class="px-3 py-1 bg-brand-bg border border-brand-border text-xs rounded-lg">Adobe Premiere Pro</span>
-        <span class="px-3 py-1 bg-brand-bg border border-brand-border text-xs rounded-lg">After Effects</span>
-        <span class="px-3 py-1 bg-brand-bg border border-brand-border text-xs rounded-lg">Minecraft Content</span>
-        <span class="px-3 py-1 bg-brand-bg border border-brand-border text-xs rounded-lg">4+ Years of Experience</span>
-      </div>
-    </section>
-
-    <!-- PRICING SECTION -->
-    <section id="pricing" class="space-y-6">
-      <div class="text-center">
-        <div class="text-xs font-bold text-purple-400 tracking-widest uppercase">Pricing & Services</div>
-        <h2 class="text-3xl font-extrabold mt-1">Simple, transparent pricing</h2>
-      </div>
-
-      <div class="grid grid-cols-2 gap-6">
-        <!-- Card 1 (Popular) -->
-        <div class="relative bg-brand-card border-2 border-brand-purple rounded-3xl p-6 glow-effect">
-          <span class="absolute -top-3 right-6 bg-brand-purple text-white text-[10px] font-black px-3 py-1 rounded-full uppercase">Most Popular</span>
-          <h3 class="font-bold text-lg">SHORT FORM</h3>
-          <div class="text-3xl font-black my-2">$10 <span class="text-xs font-normal text-gray-400">/Video</span></div>
-          <ul class="space-y-2 text-xs text-gray-300 my-6">
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Fast-paced hook optimization</li>
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Dynamic animated captions</li>
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Sound design & SFX</li>
-          </ul>
-          <button class="w-full py-3 bg-brand-purple font-bold rounded-xl text-xs hover:opacity-90 transition">Get Started</button>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="bg-brand-card border border-brand-border rounded-3xl p-6">
-          <h3 class="font-bold text-lg">STANDARD YOUTUBE</h3>
-          <div class="text-3xl font-black my-2">$25 <span class="text-xs font-normal text-gray-400">/Video</span></div>
-          <ul class="space-y-2 text-xs text-gray-300 my-6">
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> 8-15 min finished length</li>
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Narrative pacing & story focus</li>
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Advanced sound design & SFX</li>
-          </ul>
-          <button class="w-full py-3 bg-brand-border border border-gray-700 font-bold rounded-xl text-xs hover:bg-gray-800 transition">Get Started</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT SECTION -->
-    <section id="contact" class="grid grid-cols-2 gap-8 items-center pt-8">
-      <div class="space-y-4">
-        <div class="text-xs font-bold text-purple-400 tracking-widest uppercase">Get In Touch</div>
-        <h2 class="text-4xl font-extrabold">Let's create together</h2>
-        <p class="text-xs text-gray-400">Ready to scale your audience? Reach out on Discord, X, or Email and I'll get back to you within 24 hours.</p>
-        <div class="flex gap-2 pt-2">
-          <a href="#" class="px-4 py-2 bg-brand-card border border-brand-border text-xs font-semibold rounded-lg flex items-center gap-2"><i data-lucide="disc" class="w-4 h-4"></i> Discord</a>
-          <a href="#" class="px-4 py-2 bg-brand-card border border-brand-border text-xs font-semibold rounded-lg flex items-center gap-2"><i data-lucide="twitter" class="w-4 h-4"></i> Twitter</a>
-          <a href="#" class="px-4 py-2 bg-brand-card border border-brand-border text-xs font-semibold rounded-lg flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4"></i> Email</a>
-        </div>
-      </div>
-
-      <!-- WORK PLAYER INTERACTIVE -->
-      <div class="bg-brand-card border border-brand-border rounded-3xl p-6 relative overflow-hidden group">
-        <div class="text-xs font-bold text-gray-400 mb-2">SELECTED WORKS</div>
-        <div class="text-lg font-bold mb-4">Watch the <span class="text-purple-400">work</span></div>
-        <div class="relative rounded-2xl overflow-hidden aspect-video bg-black flex items-center justify-center">
-          <button onclick="alert('Playing Selected Work Demo')" class="w-12 h-12 rounded-full bg-brand-purple/80 flex items-center justify-center group-hover:scale-110 transition">
-            <i data-lucide="play" class="w-5 h-5 fill-white"></i>
-          </button>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- MODAL COMPONENT (POPUP SYSTEM) -->
-  <div id="reviewModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50">
-    <div class="bg-brand-card border border-brand-border rounded-3xl p-6 w-[90%] max-w-md relative">
-      <button onclick="closeReview()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i data-lucide="x"></i></button>
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full bg-purple-900 border border-purple-500 overflow-hidden">
-          <img id="popAvatar" src="https://api.dicebear.com/7.x/adventurer/svg?seed=Skeppy" />
-        </div>
-        <div>
-          <h4 id="popName" class="font-bold text-sm">Creator Name</h4>
-          <p id="popSub" class="text-xs text-purple-400">Subscribers</p>
-        </div>
-      </div>
-      <p id="popText" class="text-xs text-gray-300 mt-4 leading-relaxed">Review content...</p>
-      
-      <div id="videoContainer" class="mt-4 hidden aspect-video rounded-xl overflow-hidden bg-black border border-brand-border">
-        <iframe id="popVideo" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
+<header class="topbar">
+  <a class="brand" href="#home"><span class="brand-avatar">M</span><span>M3RTavar</span></a>
+  <nav class="nav" id="nav">
+    <a href="#home" class="active">Home</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#about">About</a>
+    <a href="#pricing">Pricing</a>
+    <div class="contact-wrap">
+      <button class="contact-mini" id="contactToggle">Contact</button>
+      <div class="contact-menu">
+        <a href="https://discord.com" target="_blank">Discord</a>
+        <a href="https://twitter.com" target="_blank">Twitter / X</a>
+        <a href="mailto:hello@example.com">Email</a>
       </div>
     </div>
+    <button class="menu-btn" id="menuBtn">☰</button>
+  </nav>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div class="pill"><i></i> Trusted by 10+ Creators</div>
+  <h1>I don’t just cut clips.<br><span class="gradient">I design the experience.</span></h1>
+  <p class="hero-sub">Fast-paced, clean edits built to keep viewers watching — from TikTok & Shorts to full-length YouTube content.</p>
+  <div class="cta-row">
+    <a class="btn primary" href="#portfolio">View my work</a>
+    <a class="btn" href="#contact">Let's work together</a>
   </div>
+  <div class="stats reveal">
+    <div class="stat"><strong>50+</strong><span>Videos delivered</span></div>
+    <div class="stat"><strong>10+</strong><span>Creators served</span></div>
+    <div class="stat"><strong>50M+</strong><span>Total views</span></div>
+  </div>
+</section>
 
-  <script>
-    lucide.createIcons();
+<section class="section">
+  <div class="container">
+    <div class="cards reveal">
+      <article class="card">
+        <h3>Shorts</h3>
+        <p>Fast-paced edits, animated captions & beat-synced cuts for TikTok, Reels & YouTube Shorts.</p>
+        <div class="preview"></div>
+        <div class="card-bottom"><span>45 Videos</span><button class="circle-btn" onclick="openWork('Shorts')">+</button></div>
+      </article>
+      <article class="card">
+        <h3>Long Forms</h3>
+        <p>Narrative-driven edits with cinematic pacing, custom motion graphics & color grading for YouTube.</p>
+        <div class="preview long"></div>
+        <div class="card-bottom"><span>12 Videos</span><button class="circle-btn" onclick="openWork('Long Forms')">+</button></div>
+      </article>
+    </div>
+  </div>
+</section>
 
-    function openReview(name, sub, text, videoUrl) {
-      document.getElementById('popName').innerText = name;
-      document.getElementById('popSub').innerText = sub;
-      document.getElementById('popText').innerText = '"' + text + '"';
-      document.getElementById('popAvatar').src = `https://api.dicebear.com/7.x/adventurer/svg?seed=${name}`;
+<section class="section" id="testimonials">
+  <div class="container">
+    <div class="label">Client testimonials</div>
+    <h2 class="section-title">Tons of <span class="gradient">positive reviews</span></h2>
+    <div class="avatars">
+      <div class="avatar" title="Client 1">A</div><div class="avatar" title="Client 2">S</div><div class="avatar" title="Client 3">J</div>
+      <div class="avatar" title="Client 4">M</div><div class="avatar" title="Client 5">K</div><div class="avatar" title="Client 6">D</div>
+      <div class="avatar" title="Client 7">R</div><div class="avatar" title="Client 8">T</div><div class="avatar" title="Client 9">L</div>
+      <div class="avatar" title="Client 10">Y</div>
+    </div>
+    <div class="glass reveal">
+      <h2>Why choose me?</h2>
+      <p>Hey! I'm Mert, a video editor with 4+ years of experience using Adobe Premiere Pro and After Effects. I focus on engaging, clean, and smooth edits that match your content's vibe — whether it's full visual gameplay or fast-paced challenges.</p>
+      <p>I'm always up for working on any kind of Minecraft video, and I genuinely love what I do. If you're looking for someone who brings both skill and good energy to the table, I'd love to work on your next project!</p>
+      <div class="tags"><span class="tag">Adobe Premiere Pro</span><span class="tag">After Effects</span><span class="tag">Minecraft Content</span><span class="tag">4+ Years of Experience</span></div>
+    </div>
+  </div>
+</section>
 
-      const vidContainer = document.getElementById('videoContainer');
-      const popVideo = document.getElementById('popVideo');
+<section class="section" id="about">
+  <div class="container">
+    <div class="label">About me</div>
+    <h2 class="section-title">Editing with <span class="gradient">purpose.</span></h2>
+    <p class="section-copy">Every cut, transition and animation has a reason. The goal is simple: make your content feel better, move faster and keep people watching.</p>
+  </div>
+</section>
 
-      if(videoUrl) {
-        popVideo.src = videoUrl;
-        vidContainer.classList.remove('hidden');
-      } else {
-        popVideo.src = '';
-        vidContainer.classList.add('hidden');
-      }
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="label">Pricing & services</div>
+    <h2 class="section-title">Simple, <span class="gradient">transparent pricing</span></h2>
+    <p class="section-copy">No hidden fees. Pay per video, cancel anytime.</p>
+    <div class="pricing-grid">
+      <article class="price featured reveal">
+        <h3>Short-form edit</h3><div class="amount">$10 <small>/ video</small></div>
+        <p>Perfect for TikTok, Reels & Shorts.</p>
+        <ul class="features"><li>Fast-paced editing</li><li>Animated captions</li><li>Sound design</li><li>Beat-synced cuts</li><li>Basic color grading</li></ul>
+        <button class="btn primary" onclick="openContact()">Get started</button>
+      </article>
+      <article class="price reveal">
+        <h3>Long-form edit</h3><div class="amount">$25 <small>/ video</small></div>
+        <p>For YouTube videos and longer projects.</p>
+        <ul class="features"><li>Full narrative edit</li><li>Custom motion graphics</li><li>Sound design</li><li>Advanced pacing</li><li>Color grading</li></ul>
+        <button class="btn" onclick="openContact()">Get started</button>
+      </article>
+    </div>
+  </div>
+</section>
 
-      const modal = document.getElementById('reviewModal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
+<section class="section" id="portfolio">
+  <div class="container">
+    <div class="portfolio-head">
+      <div>
+        <div class="label" style="text-align:left">Get in touch</div>
+        <h2>Let's <span class="gradient">create<br>together.</span></h2>
+        <p>Ready to take your content to the next level? Reach out on Discord, X or email and I'll get back to you as soon as possible.</p>
+        <div class="socials">
+          <a class="btn" href="https://discord.com" target="_blank">Discord</a>
+          <a class="btn" href="https://twitter.com" target="_blank">Twitter</a>
+          <a class="btn" href="mailto:hello@example.com">Email</a>
+        </div>
+      </div>
+      <div class="creator-box">
+        <div class="creator-avatar">M</div>
+        <strong>M3RTavar</strong><span>Video Editor · Content Creator</span>
+      </div>
+    </div>
 
-    function closeReview() {
-      const modal = document.getElementById('reviewModal');
-      modal.classList.remove('flex');
-      modal.classList.add('hidden');
-      document.getElementById('popVideo').src = '';
-    }
-  </script>
+    <div class="works">
+      <div class="works-title">Selected works · Watch the work</div>
+      <article class="work reveal" onclick="openWork('Minecraft Edit')">
+        <div class="work-image"></div>
+        <div class="work-meta"><span><b>Minecraft Edit</b> · Short-form</span><span>▶ Watch</span></div>
+      </article>
+      <article class="work reveal" onclick="openWork('YouTube Project')">
+        <div class="work-image" style="filter:hue-rotate(45deg) saturate(.8)"></div>
+        <div class="work-meta"><span><b>YouTube Project</b> · Long-form</span><span>▶ Watch</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="final" id="contact">
+  <div class="container">
+    <div class="glass final-card reveal">
+      <div class="label">Let's work together</div>
+      <h2>Ready to take your content<br>to the <span class="gradient">next level?</span></h2>
+      <p>Join 10+ creators who already trust M3RTavar to make their videos stand out.</p>
+      <button class="btn primary" onclick="openContact()">✦ Get in Touch</button>
+      <div class="final-brand">M3RTavar</div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>© 2026 M3RTavar · Video Editor & Content Creator</footer>
+
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <div class="modal-top"><h3 id="modalTitle">Let's work together</h3><button class="close" onclick="closeModal()">×</button></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Thanks! Your message is ready to send.</div>
+
+<script>
+const glow=document.getElementById('cursorGlow');
+document.addEventListener('mousemove',e=>{
+  glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px';
+});
+document.addEventListener('mouseleave',()=>glow.style.opacity='0');
+document.addEventListener('mouseenter',()=>glow.style.opacity='1');
+
+const nav=document.getElementById('nav');
+document.getElementById('menuBtn').addEventListener('click',()=>nav.classList.toggle('mobile-open'));
+
+const contactWrap=document.querySelector('.contact-wrap');
+document.getElementById('contactToggle').addEventListener('click',e=>{
+  e.stopPropagation();contactWrap.classList.toggle('open');
+});
+document.addEventListener('click',()=>contactWrap.classList.remove('open'));
+
+document.querySelectorAll('.nav a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    document.querySelectorAll('.nav a').forEach(x=>x.classList.remove('active'));
+    a.classList.add('active');nav.classList.remove('mobile-open');
+  });
+});
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}
+  });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+const modal=document.getElementById('modal');
+const modalTitle=document.getElementById('modalTitle');
+const modalBody=document.getElementById('modalBody');
+
+function openContact(){
+  modalTitle.textContent="Let's create together";
+  modalBody.innerHTML=`
+    <p>Tell me what you're working on and I'll get back to you.</p>
+    <form onsubmit="sendMessage(event)">
+      <input required placeholder="Your name">
+      <input required type="email" placeholder="Your email">
+      <textarea required placeholder="Tell me about your project..."></textarea>
+      <button class="btn primary" type="submit">Send message</button>
+    </form>`;
+  modal.classList.add('open');
+}
+function openWork(name){
+  modalTitle.textContent=name;
+  modalBody.innerHTML=`<p><strong>Selected work</strong></p><p>This project is part of the M3RTavar portfolio. Replace this modal with your real YouTube/portfolio URL when publishing the GitHub version.</p><button class="btn primary" onclick="closeModal()">Close</button>`;
+  modal.classList.add('open');
+}
+function closeModal(){modal.classList.remove('open')}
+function sendMessage(e){
+  e.preventDefault();closeModal();
+  const toast=document.getElementById('toast');toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),3000);
+}
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+const sections=[...document.querySelectorAll('main section[id]')];
+const linkMap=[...document.querySelectorAll('.nav a')];
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY+150;
+  let current='home';
+  sections.forEach(s=>{if(y>=s.offsetTop)current=s.id});
+  linkMap.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+current));
+},{passive:true});
+</script>
 </body>
 </html>
