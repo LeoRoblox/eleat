@@ -1,110 +1,284 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MERT'S EDITING | @M3RTavar Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MERT'S EDITING | @M3RTavar</title>
   
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: '#07050e',
+              card: '#0f0b1e',
+              border: '#1f1938',
+              purple: '#7c3aed',
+              accent: '#a78bfa'
+            }
+          }
+        }
+      }
+    }
+  </script>
 
   <style>
-    :root {
-      --bg-color: #090713;
-      --card-bg: #110d26;
-      --card-border: #231b42;
-      --accent: #7c3aed;
-      --accent-glow: rgba(124, 58, 237, 0.4);
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      line-height: 1.6;
-      overflow-x: hidden;
+      background-color: #07050e;
+      color: #f3f4f6;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .glow-effect {
+      box-shadow: 0 0 50px -10px rgba(124, 58, 237, 0.3);
+    }
+    .glass-nav {
+      background: rgba(15, 11, 30, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-20">
+
+  <!-- GLASS NAVBAR -->
+  <header class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-4xl z-50">
+    <nav class="glass-nav rounded-full px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="font-bold text-lg text-purple-400">@M3RTavar</span>
+        <div class="flex items-center gap-2 text-gray-400 border-l border-gray-700 pl-3">
+          <a href="https://discord.gg" target="_blank" class="hover:text-white transition"><i data-lucide="disc"></i></a>
+          <a href="https://x.com" target="_blank" class="hover:text-white transition"><i data-lucide="twitter"></i></a>
+          <a href="https://instagram.com" target="_blank" class="hover:text-white transition"><i data-lucide="instagram"></i></a>
+          <a href="https://youtube.com" target="_blank" class="hover:text-white transition"><i data-lucide="youtube"></i></a>
+        </div>
+      </div>
+      <div class="flex items-center gap-6 text-sm font-medium text-gray-300">
+        <a href="#home" class="hover:text-white transition">Home</a>
+        <a href="#portfolio" class="hover:text-white transition">Portfolio</a>
+        <a href="#about" class="hover:text-white transition">About</a>
+        <a href="#pricing" class="hover:text-white transition">Pricing</a>
+        <a href="#contact" class="hover:text-white transition">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="max-w-4xl mx-auto pt-36 px-4 space-y-24">
+
+    <!-- HERO SECTION -->
+    <section id="home" class="text-center space-y-6">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/40 border border-purple-500/30 text-purple-300 text-xs font-semibold">
+        <i data-lucide="users" class="w-3.5 h-3.5"></i> Trusted by 10+ Creators
+      </div>
+      
+      <h1 class="text-5xl font-extrabold tracking-tight">
+        I don't <span class="text-purple-500 italic">just</span> cut clips<br />
+        <span class="bg-gradient-to-r from-white via-gray-200 to-purple-400 bg-clip-text text-transparent">I design the experience.</span>
+      </h1>
+
+      <div class="grid grid-cols-3 gap-4 pt-6">
+        <div class="bg-brand-card border border-brand-border rounded-2xl p-6">
+          <div class="text-4xl font-black text-white">50+</div>
+          <div class="text-xs font-bold text-gray-400 tracking-wider mt-1">VIDEOS DELIVERED</div>
+        </div>
+        <div class="bg-brand-card border border-brand-border rounded-2xl p-6">
+          <div class="text-4xl font-black text-white">10+</div>
+          <div class="text-xs font-bold text-gray-400 tracking-wider mt-1">CREATORS SERVED</div>
+        </div>
+        <div class="bg-brand-card border border-brand-border rounded-2xl p-6">
+          <div class="text-4xl font-black text-white">50M+</div>
+          <div class="text-xs font-bold text-gray-400 tracking-wider mt-1">TOTAL VIEWS</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO / CAROUSEL -->
+    <section id="portfolio" class="grid grid-cols-2 gap-6">
+      <div class="bg-brand-card border border-brand-border rounded-3xl p-6 flex flex-col justify-between">
+        <div>
+          <h2 class="text-2xl font-bold">Shorts</h2>
+          <p class="text-xs text-gray-400 mt-2">Fast-paced hooks, animated captions & beat synced cuts for TikTok, Reels & YouTube Shorts.</p>
+        </div>
+        <div class="mt-6 flex items-center justify-between">
+          <span class="text-xs text-gray-400">45 Videos</span>
+          <div class="flex gap-2">
+            <button class="w-8 h-8 rounded-full bg-brand-border flex items-center justify-center"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+            <button class="w-8 h-8 rounded-full bg-brand-border flex items-center justify-center"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-brand-card border border-brand-border rounded-3xl p-6 flex flex-col justify-between">
+        <div>
+          <h2 class="text-2xl font-bold">Long Forms</h2>
+          <p class="text-xs text-gray-400 mt-2">Narrative-driven edits with cinematic pacing, custom motion graphics & color grading for YouTube.</p>
+        </div>
+        <div class="mt-6 flex items-center justify-between">
+          <span class="text-xs text-gray-400">12 Videos</span>
+          <div class="flex gap-2">
+            <button class="w-8 h-8 rounded-full bg-brand-border flex items-center justify-center"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+            <button class="w-8 h-8 rounded-full bg-brand-border flex items-center justify-center"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIAL SYSTEM -->
+    <section class="text-center space-y-6">
+      <div class="inline-block text-xs font-bold text-purple-400 tracking-widest uppercase">Client Testimonials</div>
+      <h2 class="text-3xl font-extrabold">Tons of positive reviews</h2>
+      
+      <!-- Avatare Flexbar -->
+      <div class="flex justify-center gap-3 pt-4">
+        <button onclick="openReview('Skeppy', '6.15M Subscribers', 'We did a trial edit and I think the edit was awesome overall!', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" class="w-14 h-14 rounded-full border-2 border-brand-border hover:border-brand-purple overflow-hidden transition hover:scale-105">
+          <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Skeppy" />
+        </button>
+        <button onclick="openReview('Farex', '180K Subscribers', 'Fast and good editing, barely needed revisions.', '')" class="w-14 h-14 rounded-full border-2 border-brand-border hover:border-brand-purple overflow-hidden transition hover:scale-105">
+          <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Farex" />
+        </button>
+        <button onclick="openReview('Bridgey', '95K Subscribers', 'Got the best thing possible out of the footage!', '')" class="w-14 h-14 rounded-full border-2 border-brand-border hover:border-brand-purple overflow-hidden transition hover:scale-105">
+          <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Bridgey" />
+        </button>
+        <button onclick="openReview('JettLuv', '40K Subscribers', 'Best editor on earth!', '')" class="w-14 h-14 rounded-full border-2 border-brand-border hover:border-brand-purple overflow-hidden transition hover:scale-105">
+          <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=JettLuv" />
+        </button>
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="bg-brand-card border border-brand-border rounded-3xl p-8 space-y-4">
+      <div class="text-xs font-bold text-purple-400 tracking-widest uppercase">About Me</div>
+      <h2 class="text-2xl font-bold">Why choose me?</h2>
+      <p class="text-gray-400 text-sm leading-relaxed">
+        Hey! I'm Mert, a video editor with <span class="text-white font-semibold">4+ years of experience</span> using <span class="text-white font-semibold">Adobe Premiere Pro</span> and <span class="text-white font-semibold">After Effects</span>. I focus on engaging, clean, and smooth edits that match your content's vibe.
+      </p>
+      <div class="flex flex-wrap gap-2 pt-2">
+        <span class="px-3 py-1 bg-brand-bg border border-brand-border text-xs rounded-lg">Adobe Premiere Pro</span>
+        <span class="px-3 py-1 bg-brand-bg border border-brand-border text-xs rounded-lg">After Effects</span>
+        <span class="px-3 py-1 bg-brand-bg border border-brand-border text-xs rounded-lg">Minecraft Content</span>
+        <span class="px-3 py-1 bg-brand-bg border border-brand-border text-xs rounded-lg">4+ Years of Experience</span>
+      </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section id="pricing" class="space-y-6">
+      <div class="text-center">
+        <div class="text-xs font-bold text-purple-400 tracking-widest uppercase">Pricing & Services</div>
+        <h2 class="text-3xl font-extrabold mt-1">Simple, transparent pricing</h2>
+      </div>
+
+      <div class="grid grid-cols-2 gap-6">
+        <!-- Card 1 (Popular) -->
+        <div class="relative bg-brand-card border-2 border-brand-purple rounded-3xl p-6 glow-effect">
+          <span class="absolute -top-3 right-6 bg-brand-purple text-white text-[10px] font-black px-3 py-1 rounded-full uppercase">Most Popular</span>
+          <h3 class="font-bold text-lg">SHORT FORM</h3>
+          <div class="text-3xl font-black my-2">$10 <span class="text-xs font-normal text-gray-400">/Video</span></div>
+          <ul class="space-y-2 text-xs text-gray-300 my-6">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Fast-paced hook optimization</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Dynamic animated captions</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Sound design & SFX</li>
+          </ul>
+          <button class="w-full py-3 bg-brand-purple font-bold rounded-xl text-xs hover:opacity-90 transition">Get Started</button>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-brand-card border border-brand-border rounded-3xl p-6">
+          <h3 class="font-bold text-lg">STANDARD YOUTUBE</h3>
+          <div class="text-3xl font-black my-2">$25 <span class="text-xs font-normal text-gray-400">/Video</span></div>
+          <ul class="space-y-2 text-xs text-gray-300 my-6">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> 8-15 min finished length</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Narrative pacing & story focus</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400"></i> Advanced sound design & SFX</li>
+          </ul>
+          <button class="w-full py-3 bg-brand-border border border-gray-700 font-bold rounded-xl text-xs hover:bg-gray-800 transition">Get Started</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="grid grid-cols-2 gap-8 items-center pt-8">
+      <div class="space-y-4">
+        <div class="text-xs font-bold text-purple-400 tracking-widest uppercase">Get In Touch</div>
+        <h2 class="text-4xl font-extrabold">Let's create together</h2>
+        <p class="text-xs text-gray-400">Ready to scale your audience? Reach out on Discord, X, or Email and I'll get back to you within 24 hours.</p>
+        <div class="flex gap-2 pt-2">
+          <a href="#" class="px-4 py-2 bg-brand-card border border-brand-border text-xs font-semibold rounded-lg flex items-center gap-2"><i data-lucide="disc" class="w-4 h-4"></i> Discord</a>
+          <a href="#" class="px-4 py-2 bg-brand-card border border-brand-border text-xs font-semibold rounded-lg flex items-center gap-2"><i data-lucide="twitter" class="w-4 h-4"></i> Twitter</a>
+          <a href="#" class="px-4 py-2 bg-brand-card border border-brand-border text-xs font-semibold rounded-lg flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4"></i> Email</a>
+        </div>
+      </div>
+
+      <!-- WORK PLAYER INTERACTIVE -->
+      <div class="bg-brand-card border border-brand-border rounded-3xl p-6 relative overflow-hidden group">
+        <div class="text-xs font-bold text-gray-400 mb-2">SELECTED WORKS</div>
+        <div class="text-lg font-bold mb-4">Watch the <span class="text-purple-400">work</span></div>
+        <div class="relative rounded-2xl overflow-hidden aspect-video bg-black flex items-center justify-center">
+          <button onclick="alert('Playing Selected Work Demo')" class="w-12 h-12 rounded-full bg-brand-purple/80 flex items-center justify-center group-hover:scale-110 transition">
+            <i data-lucide="play" class="w-5 h-5 fill-white"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL COMPONENT (POPUP SYSTEM) -->
+  <div id="reviewModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50">
+    <div class="bg-brand-card border border-brand-border rounded-3xl p-6 w-[90%] max-w-md relative">
+      <button onclick="closeReview()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i data-lucide="x"></i></button>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-purple-900 border border-purple-500 overflow-hidden">
+          <img id="popAvatar" src="https://api.dicebear.com/7.x/adventurer/svg?seed=Skeppy" />
+        </div>
+        <div>
+          <h4 id="popName" class="font-bold text-sm">Creator Name</h4>
+          <p id="popSub" class="text-xs text-purple-400">Subscribers</p>
+        </div>
+      </div>
+      <p id="popText" class="text-xs text-gray-300 mt-4 leading-relaxed">Review content...</p>
+      
+      <div id="videoContainer" class="mt-4 hidden aspect-video rounded-xl overflow-hidden bg-black border border-brand-border">
+        <iframe id="popVideo" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    function openReview(name, sub, text, videoUrl) {
+      document.getElementById('popName').innerText = name;
+      document.getElementById('popSub').innerText = sub;
+      document.getElementById('popText').innerText = '"' + text + '"';
+      document.getElementById('popAvatar').src = `https://api.dicebear.com/7.x/adventurer/svg?seed=${name}`;
+
+      const vidContainer = document.getElementById('videoContainer');
+      const popVideo = document.getElementById('popVideo');
+
+      if(videoUrl) {
+        popVideo.src = videoUrl;
+        vidContainer.classList.remove('hidden');
+      } else {
+        popVideo.src = '';
+        vidContainer.classList.add('hidden');
+      }
+
+      const modal = document.getElementById('reviewModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
     }
 
-    /* --- NAVIGATION --- */
-    nav {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 1000px;
-      background: rgba(17, 13, 38, 0.75);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: 99px;
-      padding: 12px 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
+    function closeReview() {
+      const modal = document.getElementById('reviewModal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+      document.getElementById('popVideo').src = '';
     }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .nav-brand img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 12px;
-    }
-
-    .social-links a {
-      color: var(--text-muted);
-      transition: color 0.3s;
-    }
-
-    .social-links a:hover {
-      color: var(--text-main);
-    }
-
-    .nav-menu {
-      display: flex;
-      gap: 24px;
-      list-style: none;
-    }
-
-    .nav-menu a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-
-    .nav-menu a:hover {
-      color: var(--text-main);
-    }
-
-    /* --- LAYOUT WRAPPER --- */
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 140px 20px 80px 20px;
-    }
-
-    section {
-      margin-bottom
+  </script>
+</body>
+</html>
